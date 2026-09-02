@@ -15,10 +15,6 @@ import {
   ArrowRight,
   ChevronDown,
   Coffee,
-  Smile,
-  BookOpen,
-  Gamepad2,
-  Ticket,
 } from "lucide-react";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import Navigation from "@/components/flow/Navigation";
