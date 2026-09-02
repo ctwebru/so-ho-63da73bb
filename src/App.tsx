@@ -12,6 +12,7 @@ import Login from "./pages/Login.tsx";
 import Checkout from "./pages/Checkout.tsx";
 import QrMenu from "./pages/QrMenu.tsx";
 import Club from "./pages/Club.tsx";
+import ClubEvent from "./pages/ClubEvent.tsx";
 import Rent from "./pages/Rent.tsx";
 import About from "./pages/About.tsx";
 import Cowork from "./pages/Cowork.tsx";
@@ -51,6 +52,7 @@ const App = () => (
             <Route path="/checkout" element={<Checkout />} />
             <Route path="/qr-menu" element={<QrMenu />} />
             <Route path="/club" element={<Club />} />
+            <Route path="/club/event/:slug" element={<ClubEvent />} />
             <Route path="/rent" element={<Rent />} />
 
             <Route path="/about" element={<About />} />
