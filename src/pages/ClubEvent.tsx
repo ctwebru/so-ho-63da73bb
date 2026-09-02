@@ -278,102 +278,115 @@ const ClubEvent = () => {
 
         {boardGames && (
           <>
+            {/* Как проходит вечер — компактная дорожка */}
             <section className="border-y border-border bg-secondary/40">
-              <div className="container mx-auto px-6 py-16 md:py-24">
-                <div className="grid gap-12 lg:grid-cols-12 lg:gap-16">
-                  <div className="lg:col-span-5">
-                    <p className="text-sm text-muted-foreground mb-3">Вечер без сложных планов</p>
-                    <h2 className="font-display text-4xl md:text-6xl font-semibold leading-tight text-balance">
-                      Приходи один.<br />Или бери своих.
-                    </h2>
-                    <p className="mt-6 text-lg text-muted-foreground leading-relaxed max-w-xl">
-                      Настольные игры — это не просто коробки с фишками. Это истории, смех,
-                      тактика и неожиданные повороты. Игры выбираем вместе — за вечер успеем
-                      сыграть несколько партий.
-                    </p>
-                  </div>
-
-                  <div className="lg:col-span-7 grid sm:grid-cols-2 gap-px bg-border border border-border">
-                    <InfoBlock title="Что взять с собой">
-                      <InfoLine>Желание общаться</InfoLine>
-                      <InfoLine>Хорошее настроение</InfoLine>
-                      <InfoLine>Любимые закуски, если хочется</InfoLine>
-                    </InfoBlock>
-                    <InfoBlock title="Как всё проходит">
-                      <InfoLine>Сбор гостей за 30 минут</InfoLine>
-                      <InfoLine>Опыт в играх не нужен</InfoLine>
-                      <InfoLine>Правила объясним на месте</InfoLine>
-                    </InfoBlock>
-                    <InfoBlock title="Можно гибко">
-                      <InfoLine>Прийти одному или компанией</InfoLine>
-                      <InfoLine>Уйти раньше, предупредив ведущего</InfoLine>
-                      <InfoLine>Выбрать игру вместе с компанией</InfoLine>
-                    </InfoBlock>
-                    <div className="bg-primary text-primary-foreground p-6 md:p-8">
-                      <Ban className="w-5 h-5 mb-6" />
-                      <h3 className="font-display text-xl font-semibold">Уютно и безопасно</h3>
-                      <p className="mt-3 text-sm leading-relaxed text-primary-foreground/75">
-                        В пространстве не курят, не используют кальяны и не распивают алкоголь.
-                        Напитки можно заказать в кофейне.
-                      </p>
-                    </div>
-                  </div>
+              <div className="container mx-auto px-6 py-14 md:py-20">
+                <div className="text-center max-w-2xl mx-auto mb-10 md:mb-14">
+                  <p className="text-sm text-muted-foreground mb-3">Вечер без сложных планов</p>
+                  <h2 className="font-display text-3xl md:text-5xl font-semibold leading-tight text-balance">
+                    Приходи один. Или бери своих.
+                  </h2>
                 </div>
 
-                <div className="mt-12 border-t border-border pt-8 grid sm:grid-cols-3 gap-8">
-                  <Stat label="Начало" value={`${nearest}, ${event.time.split("–")[0]}`} />
-                  <Stat
-                    label="Продолжительность"
-                    value={event.duration ?? "до 2 часов"}
+                <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                  <StepCard
+                    icon={<Coffee className="w-5 h-5" />}
+                    step="01"
+                    title="Собираемся"
+                    text="За 30 минут до игры пьём кофе, знакомимся и выбираем настроение вечера."
                   />
-                  <Stat
-                    label="Состав группы"
-                    value={`${minimumParticipants}–${event.capacity} человек`}
-                    hint={`Если группа не соберётся, администратор предупредит заранее`}
+                  <StepCard
+                    icon={<BookOpen className="w-5 h-5" />}
+                    step="02"
+                    title="Объясняем"
+                    text="Не знаешь правил — не страшно. Ведущий расскажет всё просто и быстро."
                   />
+                  <StepCard
+                    icon={<Gamepad2 className="w-5 h-5" />}
+                    step="03"
+                    title="Играем"
+                    text="За вечер успеваем несколько партий. Меняем игры, если захочется."
+                  />
+                  <StepCard
+                    icon={<Smile className="w-5 h-5" />}
+                    step="04"
+                    title="Уходим довольные"
+                    text="Можно уйти раньше — просто предупреди. Или остаться до закрытия."
+                  />
+                </div>
+
+                <div className="mt-10 flex flex-wrap items-center justify-center gap-4 md:gap-8 text-sm text-muted-foreground">
+                  <span className="inline-flex items-center gap-2">
+                    <Ban className="w-4 h-4" />
+                    Без алкоголя и курения
+                  </span>
+                  <span className="inline-flex items-center gap-2">
+                    <Check className="w-4 h-4 text-accent" />
+                    Напитки можно заказать в кофейне
+                  </span>
+                  <span className="inline-flex items-center gap-2">
+                    <Check className="w-4 h-4 text-accent" />
+                    Опыт не нужен
+                  </span>
                 </div>
               </div>
             </section>
 
-            <section className="container mx-auto px-6 py-20 md:py-28">
+            {/* Каталог игр с табами */}
+            <section id="games" className="container mx-auto px-6 py-20 md:py-28">
               <div className="max-w-3xl">
                 <p className="text-sm text-muted-foreground mb-3">Игры на ваш выбор</p>
                 <h2 className="font-display text-4xl md:text-6xl font-semibold leading-tight text-balance">
                   Во что будем играть?
                 </h2>
                 <p className="mt-5 text-lg text-muted-foreground leading-relaxed">
-                  Выбирай по настроению и возрасту. Не знаешь игру — не страшно: всё покажем
-                  и объясним перед первой партией.
+                  Переключай возрастную группу и смотри, какие игры будут на столах. Не знаешь
+                  правил — всё объясним перед первой партией.
                 </p>
               </div>
 
-              <div className="mt-16 space-y-20">
-                {BOARD_GAME_GROUPS.map((group) => (
-                  <div key={group.age}>
-                    <div className="flex flex-col sm:flex-row sm:items-end gap-2 sm:gap-5 border-b border-foreground pb-4">
-                      <span className="font-display text-4xl md:text-5xl font-semibold tabular-nums">
-                        {group.age}
+              <Tabs defaultValue={BOARD_GAME_GROUPS[0].age} className="mt-12 md:mt-16">
+                <TabsList className="h-auto flex flex-wrap justify-start gap-2 bg-transparent p-0">
+                  {BOARD_GAME_GROUPS.map((group) => (
+                    <TabsTrigger
+                      key={group.age}
+                      value={group.age}
+                      className="rounded-full border border-border px-5 py-2.5 text-sm data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:border-primary data-[state=active]:shadow-none"
+                    >
+                      <span className="font-display text-base font-semibold tabular-nums">{group.age}</span>
+                      <span className="ml-2 text-muted-foreground data-[state=active]:text-primary-foreground/80">
+                        {group.title}
                       </span>
-                      <h3 className="text-lg md:text-xl text-muted-foreground pb-1">{group.title}</h3>
-                    </div>
+                    </TabsTrigger>
+                  ))}
+                </TabsList>
 
-                    <div className="grid md:grid-cols-2 lg:grid-cols-3 border-l border-border">
+                {BOARD_GAME_GROUPS.map((group) => (
+                  <TabsContent
+                    key={group.age}
+                    value={group.age}
+                    className="mt-8 focus-visible:outline-none"
+                  >
+                    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
                       {group.games.map((game) => (
                         <article
                           key={game.title}
-                          className="border-r border-b border-border p-6 md:p-8 min-h-[260px] flex flex-col"
+                          className="group relative rounded-2xl border border-border bg-card p-6 md:p-7 transition-shadow hover:shadow-soft"
                         >
-                          <h4 className="font-display text-2xl font-semibold leading-tight">{game.title}</h4>
-                          <p className="mt-6 text-lg font-medium leading-snug">{game.hook}</p>
-                          <p className="mt-4 text-sm text-muted-foreground leading-relaxed">
+                          <div className="absolute inset-x-0 top-0 h-1 rounded-t-2xl bg-primary/10 group-hover:bg-primary transition-colors" />
+                          <h4 className="font-display text-xl md:text-2xl font-semibold leading-tight">
+                            {game.title}
+                          </h4>
+                          <p className="mt-4 text-base font-medium leading-snug">{game.hook}</p>
+                          <p className="mt-3 text-sm text-muted-foreground leading-relaxed">
                             {game.description}
                           </p>
                         </article>
                       ))}
                     </div>
-                  </div>
+                  </TabsContent>
                 ))}
-              </div>
+              </Tabs>
             </section>
 
             <section className="bg-primary text-primary-foreground">
