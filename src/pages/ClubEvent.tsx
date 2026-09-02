@@ -398,18 +398,19 @@ const ClubEvent = () => {
               <Tabs defaultValue={BOARD_GAME_GROUPS[0].age} className="w-full">
                 <TabsList className="h-auto w-full md:w-auto flex flex-wrap justify-start gap-2 bg-transparent p-0 mb-8 md:mb-10">
                   {BOARD_GAME_GROUPS.map((group) => (
-                    <TabsTrigger
-                      key={group.age}
-                      value={group.age}
-                      className="rounded-full border border-border px-4 py-2 text-sm data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:border-primary transition-all"
-                    >
-                      <span className="data-[state=inactive]:text-muted-foreground">
-                        {group.title}
-                      </span>
-                      <span className="ml-2 inline-flex items-center justify-center min-w-[1.75rem] px-1.5 py-0.5 rounded-md bg-secondary text-[10px] font-display font-semibold tabular-nums data-[state=active]:bg-primary-foreground/20 data-[state=active]:text-primary-foreground">
-                        {group.age}
-                      </span>
-                    </TabsTrigger>
+                    <Tooltip key={group.age}>
+                      <TooltipTrigger asChild>
+                        <TabsTrigger
+                          value={group.age}
+                          className="rounded-full border border-border px-4 py-2 text-sm data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:border-primary transition-all"
+                        >
+                          {group.age}
+                        </TabsTrigger>
+                      </TooltipTrigger>
+                      <TooltipContent side="top" className="max-w-xs text-center">
+                        <p className="font-medium">{group.title}</p>
+                      </TooltipContent>
+                    </Tooltip>
                   ))}
                 </TabsList>
 
