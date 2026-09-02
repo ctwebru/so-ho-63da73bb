@@ -486,6 +486,7 @@ const ClubEvent = () => {
         </DialogContent>
       </Dialog>
     </div>
+    </TooltipProvider>
   );
 };
 
