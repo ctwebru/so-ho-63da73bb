@@ -321,51 +321,17 @@ const ClubEvent = () => {
 
         {boardGames && (
           <>
-            {/* Как проходит вечер — компактная дорожка */}
+            {/* Краткие правила вечера */}
             <section className="border-y border-border bg-secondary/40">
-              <div className="container mx-auto px-6 py-14 md:py-20">
-                <div className="text-center max-w-2xl mx-auto mb-10 md:mb-14">
-                  <p className="text-sm text-muted-foreground mb-3">Вечер без сложных планов</p>
-                  <h2 className="font-display text-3xl md:text-5xl font-semibold leading-tight text-balance">
-                    Приходи один. Или бери своих.
-                  </h2>
-                </div>
-
-                <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                  <StepCard
-                    icon={<Coffee className="w-5 h-5" />}
-                    step="01"
-                    title="Собираемся"
-                    text="За 30 минут до игры пьём кофе, знакомимся и выбираем настроение вечера."
-                  />
-                  <StepCard
-                    icon={<BookOpen className="w-5 h-5" />}
-                    step="02"
-                    title="Объясняем"
-                    text="Не знаешь правил — не страшно. Ведущий расскажет всё просто и быстро."
-                  />
-                  <StepCard
-                    icon={<Gamepad2 className="w-5 h-5" />}
-                    step="03"
-                    title="Играем"
-                    text="За вечер успеваем несколько партий. Меняем игры, если захочется."
-                  />
-                  <StepCard
-                    icon={<Smile className="w-5 h-5" />}
-                    step="04"
-                    title="Уходим довольные"
-                    text="Можно уйти раньше — просто предупреди. Или остаться до закрытия."
-                  />
-                </div>
-
-                <div className="mt-10 flex flex-wrap items-center justify-center gap-4 md:gap-8 text-sm text-muted-foreground">
+              <div className="container mx-auto px-6 py-8">
+                <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-3 text-sm text-muted-foreground">
                   <span className="inline-flex items-center gap-2">
                     <Ban className="w-4 h-4" />
                     Без алкоголя и курения
                   </span>
                   <span className="inline-flex items-center gap-2">
-                    <Check className="w-4 h-4 text-accent" />
-                    Напитки можно заказать в кофейне
+                    <Coffee className="w-4 h-4 text-accent" />
+                    Напитки из кофейни
                   </span>
                   <span className="inline-flex items-center gap-2">
                     <Check className="w-4 h-4 text-accent" />
@@ -375,28 +341,32 @@ const ClubEvent = () => {
               </div>
             </section>
 
-            {/* Каталог игр с табами */}
+            {/* Каталог игр с каскадными табами */}
             <section id="games" className="container mx-auto px-6 py-20 md:py-28">
-              <div className="max-w-3xl">
-                <p className="text-sm text-muted-foreground mb-3">Игры на ваш выбор</p>
-                <h2 className="font-display text-4xl md:text-6xl font-semibold leading-tight text-balance">
-                  Во что будем играть?
-                </h2>
-                <p className="mt-5 text-lg text-muted-foreground leading-relaxed">
-                  Переключай возрастную группу и смотри, какие игры будут на столах. Не знаешь
-                  правил — всё объясним перед первой партией.
-                </p>
+              <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-12 md:mb-16">
+                <div className="max-w-2xl">
+                  <p className="text-sm text-muted-foreground mb-3">Игры на ваш выбор</p>
+                  <h2 className="font-display text-4xl md:text-5xl font-semibold leading-tight text-balance">
+                    Во что играем?
+                  </h2>
+                  <p className="mt-4 text-lg text-muted-foreground leading-relaxed">
+                    Библиотека из 40+ игр. Переключай возрастную группу — в старших табах
+                    автоматически появляются и младшие игры.
+                  </p>
+                </div>
               </div>
 
-              <Tabs defaultValue={BOARD_GAME_GROUPS[0].age} className="mt-12 md:mt-16">
-                <TabsList className="h-auto flex flex-wrap justify-start gap-2 bg-transparent p-0">
+              <Tabs defaultValue={BOARD_GAME_GROUPS[0].age} className="w-full">
+                <TabsList className="h-auto w-full md:w-auto flex flex-wrap justify-start gap-2 bg-transparent p-0 mb-8 md:mb-10">
                   {BOARD_GAME_GROUPS.map((group) => (
                     <TabsTrigger
                       key={group.age}
                       value={group.age}
-                      className="rounded-full border border-border px-5 py-2.5 text-sm data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:border-primary data-[state=active]:shadow-none"
+                      className="rounded-full border border-border px-5 py-2.5 text-sm data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:border-primary data-[state=active]:shadow-none transition-all"
                     >
-                      <span className="font-display text-base font-semibold tabular-nums">{group.age}</span>
+                      <span className="font-display text-base font-semibold tabular-nums">
+                        {group.age}
+                      </span>
                       <span className="ml-2 text-muted-foreground data-[state=active]:text-primary-foreground/80">
                         {group.title}
                       </span>
@@ -404,31 +374,28 @@ const ClubEvent = () => {
                   ))}
                 </TabsList>
 
-                {BOARD_GAME_GROUPS.map((group) => (
-                  <TabsContent
-                    key={group.age}
-                    value={group.age}
-                    className="mt-8 focus-visible:outline-none"
-                  >
-                    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-                      {group.games.map((game) => (
-                        <article
-                          key={game.title}
-                          className="group relative rounded-2xl border border-border bg-card p-6 md:p-7 transition-shadow hover:shadow-soft"
-                        >
-                          <div className="absolute inset-x-0 top-0 h-1 rounded-t-2xl bg-primary/10 group-hover:bg-primary transition-colors" />
-                          <h4 className="font-display text-xl md:text-2xl font-semibold leading-tight">
-                            {game.title}
-                          </h4>
-                          <p className="mt-4 text-base font-medium leading-snug">{game.hook}</p>
-                          <p className="mt-3 text-sm text-muted-foreground leading-relaxed">
-                            {game.description}
-                          </p>
-                        </article>
-                      ))}
-                    </div>
-                  </TabsContent>
-                ))}
+                {BOARD_GAME_GROUPS.map((group) => {
+                  const games = cascadeGames(group.age);
+                  return (
+                    <TabsContent
+                      key={group.age}
+                      value={group.age}
+                      className="mt-0 focus-visible:outline-none"
+                    >
+                      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 md:gap-5">
+                        {games.map((game, idx) => (
+                          <GameCard key={`${game.title}-${idx}`} game={game} />
+                        ))}
+                      </div>
+
+                      <div className="mt-12 text-center">
+                        <p className="text-sm text-muted-foreground/70 italic">
+                          + ещё игры в коллекции клуба — ведущий подберёт под настроение вечера
+                        </p>
+                      </div>
+                    </TabsContent>
+                  );
+                })}
               </Tabs>
             </section>
 
