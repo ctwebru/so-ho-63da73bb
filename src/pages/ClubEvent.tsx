@@ -14,6 +14,12 @@ import {
   ClipboardCheck,
 } from "lucide-react";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import Navigation from "@/components/flow/Navigation";
 import Footer from "@/components/flow/Footer";
 import { Button } from "@/components/ui/button";
@@ -93,7 +99,8 @@ const ClubEvent = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <TooltipProvider delayDuration={0}>
+      <div className="min-h-screen bg-background">
       <Navigation />
 
       <main>
@@ -187,18 +194,58 @@ const ClubEvent = () => {
           </div>
         </section>
 
+        {/* О встрече */}
+        <section className="container mx-auto px-6 py-16 md:py-24">
+          <div className="max-w-4xl">
+            <p className="text-sm text-muted-foreground mb-3">О встрече</p>
+            <h2 className="font-display text-3xl md:text-4xl font-semibold leading-tight text-balance">
+              Библиотека из 40+ игр, ведущий, чай без лимита. Приходи один или компанией.
+            </h2>
+            <div className="mt-6 space-y-4 text-lg text-muted-foreground leading-relaxed">
+              <p>
+                Вечер настольных игр — это про расслабленную атмосферу, новые знакомства и
+                лёгкое соперничество за столом. Не важно, играли ли вы раньше: ведущий
+                объяснит правила, подскажет, во что начать, и поможет включиться в процесс.
+              </p>
+              <p>
+                Можно прийти в одиночку — мы посадим за общий стол и познакомим с
+                соседями. Можно прийти компанией — тогда у вас будет свой уютный уголок.
+                И да, можно уйти раньше, если вдруг устанете: просто предупредите
+                организатора.
+              </p>
+              <p>
+                Сбор начинается за полчаса до старта. За это время успеете выбрать игру,
+                заказать напитки из кофейни и познакомиться с другими участниками.
+              </p>
+            </div>
+
+            <div className="mt-10 flex flex-col sm:flex-row sm:items-center gap-6">
+              <div className="rounded-2xl border border-border bg-card p-5">
+                <p className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground mb-1">
+                  Стоимость участия
+                </p>
+                <div className="flex items-baseline gap-3">
+                  <span className="font-display text-3xl font-semibold">{event.price} ₽</span>
+                  <span className="text-sm text-muted-foreground">по клубной карте — бесплатно</span>
+                </div>
+              </div>
+              <div className="flex flex-wrap gap-x-6 gap-y-2 text-sm text-muted-foreground">
+                <span className="flex items-center gap-2">
+                  <Check className="w-4 h-4 text-accent" /> Чай без лимита
+                </span>
+                <span className="flex items-center gap-2">
+                  <Users className="w-4 h-4 text-accent" /> От {minimumParticipants} до {event.capacity} человек
+                </span>
+              </div>
+            </div>
+          </div>
+        </section>
+
         {/* Детали */}
         <section className="container mx-auto px-6 py-16 md:py-24">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16">
-            {/* Левая колонка: о встрече и правила */}
+            {/* Левая колонка: правила */}
             <div className="lg:col-span-7 space-y-10">
-              <div className="space-y-6">
-                <h2 className="font-display text-2xl md:text-3xl font-semibold">О встрече</h2>
-                <p className="text-lg md:text-xl leading-relaxed text-muted-foreground">
-                  {event.description}
-                </p>
-              </div>
-
               <div className="rounded-3xl border border-border bg-secondary/60 p-8 md:p-10 space-y-6">
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 rounded-full bg-accent/15 flex items-center justify-center">
@@ -351,18 +398,19 @@ const ClubEvent = () => {
               <Tabs defaultValue={BOARD_GAME_GROUPS[0].age} className="w-full">
                 <TabsList className="h-auto w-full md:w-auto flex flex-wrap justify-start gap-2 bg-transparent p-0 mb-8 md:mb-10">
                   {BOARD_GAME_GROUPS.map((group) => (
-                    <TabsTrigger
-                      key={group.age}
-                      value={group.age}
-                      className="rounded-full border border-border px-4 py-2 text-sm data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:border-primary transition-all"
-                    >
-                      <span className="data-[state=inactive]:text-muted-foreground">
-                        {group.title}
-                      </span>
-                      <span className="ml-2 inline-flex items-center justify-center min-w-[1.75rem] px-1.5 py-0.5 rounded-md bg-secondary text-[10px] font-display font-semibold tabular-nums data-[state=active]:bg-primary-foreground/20 data-[state=active]:text-primary-foreground">
-                        {group.age}
-                      </span>
-                    </TabsTrigger>
+                    <Tooltip key={group.age}>
+                      <TooltipTrigger asChild>
+                        <TabsTrigger
+                          value={group.age}
+                          className="rounded-full border border-border px-4 py-2 text-sm data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:border-primary transition-all"
+                        >
+                          {group.age}
+                        </TabsTrigger>
+                      </TooltipTrigger>
+                      <TooltipContent side="top" className="max-w-xs text-center">
+                        <p className="font-medium">{group.title}</p>
+                      </TooltipContent>
+                    </Tooltip>
                   ))}
                 </TabsList>
 
@@ -479,6 +527,7 @@ const ClubEvent = () => {
         </DialogContent>
       </Dialog>
     </div>
+    </TooltipProvider>
   );
 };
 
