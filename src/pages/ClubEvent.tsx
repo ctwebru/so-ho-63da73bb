@@ -535,27 +535,41 @@ const Stat = ({ label, value, hint }: { label: string; value: string; hint?: str
   </div>
 );
 
-const StepCard = ({
-  icon,
-  step,
-  title,
-  text,
-}: {
-  icon: React.ReactNode;
-  step: string;
-  title: string;
-  text: string;
-}) => (
-  <div className="rounded-2xl border border-border bg-background p-6 md:p-7">
-    <div className="flex items-center justify-between">
-      <span className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-primary/10 text-primary">
-        {icon}
-      </span>
-      <span className="font-display text-sm text-muted-foreground tabular-nums">{step}</span>
-    </div>
-    <h3 className="font-display text-xl font-semibold mt-5">{title}</h3>
-    <p className="text-sm text-muted-foreground leading-relaxed mt-2">{text}</p>
-  </div>
-);
+const GameCard = ({ game }: { game: CascadedGame }) => {
+  const initials = game.title
+    .split(" ")
+    .slice(0, 2)
+    .map((w) => w[0])
+    .join("")
+    .toUpperCase();
+
+  const hue = ((game.title.charCodeAt(0) * 37) % 360).toString();
+
+  return (
+    <article className="group cursor-pointer">
+      <div className="aspect-[3/4] rounded-2xl mb-3 overflow-hidden border border-border bg-secondary transition-all duration-500 group-hover:scale-[1.02] group-hover:shadow-soft">
+        <div
+          className="w-full h-full flex items-center justify-center p-6"
+          style={{
+            background: `radial-gradient(circle at 30% 30%, hsl(${hue} 20% 88%), hsl(${hue} 18% 78%))`,
+          }}
+        >
+          <div className="w-20 h-20 md:w-24 md:h-24 rounded-full border-2 border-foreground/10 flex items-center justify-center bg-background/60 backdrop-blur-sm">
+            <span className="font-display text-2xl md:text-3xl font-semibold text-foreground/40">
+              {initials || "?"}
+            </span>
+          </div>
+        </div>
+      </div>
+      <h4 className="font-display text-base md:text-lg font-semibold leading-tight group-hover:text-accent transition-colors">
+        {game.title}
+      </h4>
+      <p className="mt-1.5 text-xs text-muted-foreground line-clamp-2">{game.hook}</p>
+      <p className="mt-2 text-[10px] uppercase tracking-wider text-muted-foreground/70">
+        {game.age}
+      </p>
+    </article>
+  );
+};
 
 export default ClubEvent;
