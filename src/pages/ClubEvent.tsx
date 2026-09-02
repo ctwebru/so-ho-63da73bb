@@ -195,85 +195,128 @@ const ClubEvent = () => {
         </section>
 
         {/* Детали */}
-        <section className="container mx-auto px-6 py-16 md:py-24 grid md:grid-cols-12 gap-10">
-          <div className="md:col-span-7 space-y-6">
-            <p className="text-lg md:text-xl leading-relaxed text-muted-foreground">
-              {event.description}
-            </p>
-            {event.host && (
-              <p className="text-sm text-muted-foreground">Ведёт: {event.host}</p>
-            )}
-            <div className="flex items-start gap-2 text-sm text-muted-foreground border-t border-border pt-6">
-              <MapPin className="w-4 h-4 mt-0.5 shrink-0" />
-              <span>
-                Новосибирск, Дачное шоссе, 22/3 — соседский клуб SO-HO! на территории ЖК
-                Flora&nbsp;&amp;&nbsp;Fauna. Клуб открыт ежедневно 08:00 — 20:00.
-              </span>
-            </div>
-          </div>
-
-          <aside className="md:col-span-5">
-            <div className="rounded-3xl border border-border bg-card p-6 shadow-soft space-y-5">
-              <Row
-                icon={<Coins className="w-4 h-4" />}
-                label="Стоимость"
-                value={`${event.price} ₽`}
-                hint="По клубной карте — бесплатно"
-              />
-              <Row
-                icon={<Users className="w-4 h-4" />}
-                label="Максимум участников"
-                value={`${event.capacity} человек`}
-                hint={
-                  soldOut
-                    ? "Мест не осталось"
-                    : boardGames
-                      ? `Минимум ${minimumParticipants} · свободно ${left}`
-                      : `Свободно ${left}`
-                }
-              />
-              <Row
-                icon={<ClipboardCheck className="w-4 h-4" />}
-                label="Запись"
-                value={event.booking ? "Нужна бронь" : "Без записи"}
-              />
-              <Row
-                icon={<Clock className="w-4 h-4" />}
-                label="Продолжительность"
-                value={event.duration ?? event.time}
-              />
-              {event.recurring && (
-                <Row
-                  icon={<CalendarDays className="w-4 h-4" />}
-                  label="Повторяется"
-                  value={event.dateLabel}
-                />
-              )}
-
-              <div className="pt-2">
-                <div className="h-2 rounded-full bg-secondary overflow-hidden">
-                  <div
-                    className="h-full rounded-full bg-accent"
-                    style={{
-                      width: `${Math.min(100, Math.round((event.booked / event.capacity) * 100))}%`,
-                    }}
-                  />
-                </div>
-                <div className="text-xs text-muted-foreground mt-2 tabular-nums">
-                  Записались {event.booked} из {event.capacity}
-                </div>
+        <section className="container mx-auto px-6 py-16 md:py-24">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16">
+            {/* Левая колонка: о встрече и правила */}
+            <div className="lg:col-span-7 space-y-10">
+              <div className="space-y-6">
+                <h2 className="font-display text-2xl md:text-3xl font-semibold">О встрече</h2>
+                <p className="text-lg md:text-xl leading-relaxed text-muted-foreground">
+                  {event.description}
+                </p>
               </div>
 
-              <Button
-                className="w-full"
-                size="lg"
-                disabled={soldOut}
-                onClick={() => setOpen(true)}
-              >
-                {soldOut ? "Мест нет" : "Забронировать место"}
-              </Button>
+              <div className="rounded-2xl border border-border bg-secondary/40 p-6 md:p-8 space-y-5">
+                <h3 className="text-xs uppercase tracking-[0.2em] text-muted-foreground font-medium">
+                  Правила посещения
+                </h3>
+                <ul className="space-y-4">
+                  <li className="flex items-start gap-4">
+                    <span className="w-1.5 h-1.5 rounded-full bg-foreground mt-2 shrink-0" />
+                    <p className="text-sm leading-relaxed">
+                      Приходите за 30 минут до начала — успеете выбрать игру, заказать напитки и
+                      познакомиться с соседями.
+                    </p>
+                  </li>
+                  <li className="flex items-start gap-4">
+                    <span className="w-1.5 h-1.5 rounded-full bg-foreground mt-2 shrink-0" />
+                    <p className="text-sm leading-relaxed">
+                      Минимум {minimumParticipants} участника для проведения встречи.
+                    </p>
+                  </li>
+                  <li className="flex items-start gap-4">
+                    <span className="w-1.5 h-1.5 rounded-full bg-foreground mt-2 shrink-0" />
+                    <p className="text-sm leading-relaxed">
+                      Максимальная вместимость — {event.capacity} гостей, чтобы всем было комфортно.
+                    </p>
+                  </li>
+                </ul>
+              </div>
             </div>
-          </aside>
+
+            {/* Правая колонка: бронирование */}
+            <aside className="lg:col-span-5">
+              <div className="lg:sticky lg:top-24 rounded-3xl border border-border bg-card p-6 md:p-8 shadow-soft space-y-6">
+                <div>
+                  <p className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground mb-1">
+                    Стоимость
+                  </p>
+                  <div className="flex items-baseline gap-3 flex-wrap">
+                    <span className="font-display text-3xl font-semibold">{event.price} ₽</span>
+                    <span className="text-xs text-muted-foreground">
+                      по клубной карте — бесплатно
+                    </span>
+                  </div>
+                </div>
+
+                <div>
+                  <p className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground mb-3">
+                    Статус записи
+                  </p>
+                  <div className="flex items-center gap-2 mb-2">
+                    <span className="text-sm font-medium">
+                      {left} {left === 1 ? "место" : left < 5 ? "места" : "мест"} доступно
+                    </span>
+                    {!soldOut && (
+                      <span className="text-[10px] px-2 py-0.5 rounded-full bg-accent/15 text-accent border border-accent/20">
+                        Открыта
+                      </span>
+                    )}
+                    {soldOut && (
+                      <span className="text-[10px] px-2 py-0.5 rounded-full bg-destructive/10 text-destructive border border-destructive/20">
+                        Заполнено
+                      </span>
+                    )}
+                  </div>
+                  <div className="h-2 rounded-full bg-secondary overflow-hidden">
+                    <div
+                      className="h-full rounded-full bg-accent"
+                      style={{
+                        width: `${Math.min(100, Math.round((event.booked / event.capacity) * 100))}%`,
+                      }}
+                    />
+                  </div>
+                  <p className="text-[10px] text-muted-foreground mt-2 tabular-nums">
+                    Записались {event.booked} из {event.capacity}
+                  </p>
+                </div>
+
+                <div className="flex gap-6 md:gap-8 border-t border-border pt-5">
+                  <div>
+                    <p className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground mb-1">
+                      Запись
+                    </p>
+                    <p className="text-sm font-medium">
+                      {event.booking ? "Нужна бронь" : "Без записи"}
+                    </p>
+                  </div>
+                  <div>
+                    <p className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground mb-1">
+                      Длительность
+                    </p>
+                    <p className="text-sm font-medium">{event.duration ?? event.time}</p>
+                  </div>
+                  {event.recurring && (
+                    <div>
+                      <p className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground mb-1">
+                        Повтор
+                      </p>
+                      <p className="text-sm font-medium">{event.dateLabel}</p>
+                    </div>
+                  )}
+                </div>
+
+                <Button
+                  className="w-full"
+                  size="lg"
+                  disabled={soldOut}
+                  onClick={() => setOpen(true)}
+                >
+                  {soldOut ? "Мест нет" : "Забронировать место"}
+                </Button>
+              </div>
+            </aside>
+          </div>
         </section>
 
         {boardGames && (
