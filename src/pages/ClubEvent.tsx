@@ -11,6 +11,9 @@ import {
   Share2,
   MapPin,
   Sparkles,
+  Check,
+  Ban,
+  ArrowRight,
 } from "lucide-react";
 import Navigation from "@/components/flow/Navigation";
 import Footer from "@/components/flow/Footer";
@@ -24,7 +27,8 @@ import {
   DialogDescription,
 } from "@/components/ui/dialog";
 import { KIND_META } from "@/data/clubSchedule";
-import { resolveEvent, nextDateFor, formatRuDate } from "@/lib/clubEvent";
+import { BOARD_GAME_GROUPS } from "@/data/boardGames";
+import { resolveEvent, nextDateFor, formatRuDate, isBoardGameEvent } from "@/lib/clubEvent";
 import clubPhoto from "@/assets/real/club-front.png";
 
 const ClubEvent = () => {
@@ -59,6 +63,8 @@ const ClubEvent = () => {
   const soldOut = left === 0;
   const nearest =
     event.recurring && event.weekDay ? formatRuDate(nextDateFor(event.weekDay)) : event.dateLabel;
+  const boardGames = isBoardGameEvent(event);
+  const minimumParticipants = Math.min(4, event.capacity);
 
   const share = async () => {
     const url = window.location.href;
@@ -134,6 +140,13 @@ const ClubEvent = () => {
               {event.title}
             </h1>
 
+            {boardGames && (
+              <p className="mt-5 max-w-2xl text-lg md:text-2xl text-foreground/80 leading-relaxed text-balance">
+                Не знаешь, чем заняться вечером? Мы уже всё придумали: настолки, новые
+                знакомства и уютная атмосфера ждут тебя в SO-HO!
+              </p>
+            )}
+
             {/* Крупная дата и время */}
             <div className="mt-8 flex flex-wrap items-end gap-x-10 gap-y-4">
               <div>
@@ -195,7 +208,13 @@ const ClubEvent = () => {
                 icon={<Users className="w-4 h-4" />}
                 label="Максимум участников"
                 value={`${event.capacity} человек`}
-                hint={soldOut ? "Мест не осталось" : `Свободно ${left}`}
+                hint={
+                  soldOut
+                    ? "Мест не осталось"
+                    : boardGames
+                      ? `Минимум ${minimumParticipants} · свободно ${left}`
+                      : `Свободно ${left}`
+                }
               />
               <Row
                 icon={<ClipboardCheck className="w-4 h-4" />}
@@ -240,6 +259,129 @@ const ClubEvent = () => {
             </div>
           </aside>
         </section>
+
+        {boardGames && (
+          <>
+            <section className="border-y border-border bg-secondary/40">
+              <div className="container mx-auto px-6 py-16 md:py-24">
+                <div className="grid gap-12 lg:grid-cols-12 lg:gap-16">
+                  <div className="lg:col-span-5">
+                    <p className="text-sm text-muted-foreground mb-3">Вечер без сложных планов</p>
+                    <h2 className="font-display text-4xl md:text-6xl font-semibold leading-tight text-balance">
+                      Приходи один.<br />Или бери своих.
+                    </h2>
+                    <p className="mt-6 text-lg text-muted-foreground leading-relaxed max-w-xl">
+                      Настольные игры — это не просто коробки с фишками. Это истории, смех,
+                      тактика и неожиданные повороты. Игры выбираем вместе — за вечер успеем
+                      сыграть несколько партий.
+                    </p>
+                  </div>
+
+                  <div className="lg:col-span-7 grid sm:grid-cols-2 gap-px bg-border border border-border">
+                    <InfoBlock title="Что взять с собой">
+                      <InfoLine>Желание общаться</InfoLine>
+                      <InfoLine>Хорошее настроение</InfoLine>
+                      <InfoLine>Любимые закуски, если хочется</InfoLine>
+                    </InfoBlock>
+                    <InfoBlock title="Как всё проходит">
+                      <InfoLine>Сбор гостей за 30 минут</InfoLine>
+                      <InfoLine>Опыт в играх не нужен</InfoLine>
+                      <InfoLine>Правила объясним на месте</InfoLine>
+                    </InfoBlock>
+                    <InfoBlock title="Можно гибко">
+                      <InfoLine>Прийти одному или компанией</InfoLine>
+                      <InfoLine>Уйти раньше, предупредив ведущего</InfoLine>
+                      <InfoLine>Выбрать игру вместе с компанией</InfoLine>
+                    </InfoBlock>
+                    <div className="bg-primary text-primary-foreground p-6 md:p-8">
+                      <Ban className="w-5 h-5 mb-6" />
+                      <h3 className="font-display text-xl font-semibold">Уютно и безопасно</h3>
+                      <p className="mt-3 text-sm leading-relaxed text-primary-foreground/75">
+                        В пространстве не курят, не используют кальяны и не распивают алкоголь.
+                        Напитки можно заказать в кофейне.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="mt-12 border-t border-border pt-8 grid sm:grid-cols-3 gap-8">
+                  <Stat label="Начало" value={`${nearest}, ${event.time.split("–")[0]}`} />
+                  <Stat label="Продолжительность" value={event.duration ?? event.time} />
+                  <Stat
+                    label="Состав группы"
+                    value={`${minimumParticipants}–${event.capacity} человек`}
+                    hint={`Если группа не соберётся, администратор предупредит заранее`}
+                  />
+                </div>
+              </div>
+            </section>
+
+            <section className="container mx-auto px-6 py-20 md:py-28">
+              <div className="max-w-3xl">
+                <p className="text-sm text-muted-foreground mb-3">Игры на ваш выбор</p>
+                <h2 className="font-display text-4xl md:text-6xl font-semibold leading-tight text-balance">
+                  Во что будем играть?
+                </h2>
+                <p className="mt-5 text-lg text-muted-foreground leading-relaxed">
+                  Выбирай по настроению и возрасту. Не знаешь игру — не страшно: всё покажем
+                  и объясним перед первой партией.
+                </p>
+              </div>
+
+              <div className="mt-16 space-y-20">
+                {BOARD_GAME_GROUPS.map((group) => (
+                  <div key={group.age}>
+                    <div className="flex flex-col sm:flex-row sm:items-end gap-2 sm:gap-5 border-b border-foreground pb-4">
+                      <span className="font-display text-4xl md:text-5xl font-semibold tabular-nums">
+                        {group.age}
+                      </span>
+                      <h3 className="text-lg md:text-xl text-muted-foreground pb-1">{group.title}</h3>
+                    </div>
+
+                    <div className="grid md:grid-cols-2 lg:grid-cols-3 border-l border-border">
+                      {group.games.map((game) => (
+                        <article
+                          key={game.title}
+                          className="border-r border-b border-border p-6 md:p-8 min-h-[260px] flex flex-col"
+                        >
+                          <h4 className="font-display text-2xl font-semibold leading-tight">{game.title}</h4>
+                          <p className="mt-6 text-lg font-medium leading-snug">{game.hook}</p>
+                          <p className="mt-4 text-sm text-muted-foreground leading-relaxed">
+                            {game.description}
+                          </p>
+                        </article>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </section>
+
+            <section className="bg-primary text-primary-foreground">
+              <div className="container mx-auto px-6 py-16 md:py-24 flex flex-col md:flex-row md:items-end md:justify-between gap-8">
+                <div className="max-w-2xl">
+                  <p className="text-sm text-primary-foreground/65 mb-3">Осталось выбрать вечер</p>
+                  <h2 className="font-display text-4xl md:text-6xl font-semibold leading-tight text-balance">
+                    Записывайся. Будем уютно играть.
+                  </h2>
+                  <p className="mt-5 text-primary-foreground/75">
+                    Можно прийти без компании — познакомим и поможем включиться в игру.
+                  </p>
+                </div>
+                <Button
+                  size="lg"
+                  variant="secondary"
+                  disabled={soldOut}
+                  onClick={() => setOpen(true)}
+                  className="shrink-0"
+                >
+                  {soldOut ? "Мест нет" : "Забронировать место"}
+                  {!soldOut && <ArrowRight className="w-4 h-4" />}
+                </Button>
+              </div>
+            </section>
+          </>
+        )}
       </main>
 
       <Footer />
@@ -270,21 +412,27 @@ const ClubEvent = () => {
             <div className="flex items-center justify-between rounded-2xl border border-border px-4 py-2.5">
               <span className="text-sm text-muted-foreground">Сколько вас</span>
               <div className="flex items-center gap-3">
-                <button
+                <Button
                   type="button"
-                  className="w-7 h-7 rounded-full border border-border"
+                  variant="outline"
+                  size="icon"
+                  className="w-7 h-7 rounded-full"
                   onClick={() => setPeople((p) => Math.max(1, p - 1))}
+                  aria-label="Уменьшить количество гостей"
                 >
                   −
-                </button>
+                </Button>
                 <span className="tabular-nums w-4 text-center">{people}</span>
-                <button
+                <Button
                   type="button"
-                  className="w-7 h-7 rounded-full border border-border"
+                  variant="outline"
+                  size="icon"
+                  className="w-7 h-7 rounded-full"
                   onClick={() => setPeople((p) => Math.min(left || 1, p + 1))}
+                  aria-label="Увеличить количество гостей"
                 >
                   +
-                </button>
+                </Button>
               </div>
             </div>
             <Button type="submit" className="w-full">
@@ -320,6 +468,28 @@ const Row = ({
       <div className="font-display text-lg font-medium leading-tight">{value}</div>
       {hint && <div className="text-xs text-muted-foreground mt-0.5">{hint}</div>}
     </div>
+  </div>
+);
+
+const InfoBlock = ({ title, children }: { title: string; children: React.ReactNode }) => (
+  <div className="bg-background p-6 md:p-8">
+    <h3 className="font-display text-xl font-semibold mb-6">{title}</h3>
+    <div className="space-y-4">{children}</div>
+  </div>
+);
+
+const InfoLine = ({ children }: { children: React.ReactNode }) => (
+  <div className="flex items-start gap-3 text-sm leading-relaxed">
+    <Check className="w-4 h-4 mt-0.5 text-accent shrink-0" />
+    <span>{children}</span>
+  </div>
+);
+
+const Stat = ({ label, value, hint }: { label: string; value: string; hint?: string }) => (
+  <div>
+    <div className="text-[11px] uppercase tracking-widest text-muted-foreground">{label}</div>
+    <div className="font-display text-xl md:text-2xl font-semibold mt-1">{value}</div>
+    {hint && <p className="text-xs text-muted-foreground mt-2 max-w-xs">{hint}</p>}
   </div>
 );
 
