@@ -194,6 +194,53 @@ const ClubEvent = () => {
           </div>
         </section>
 
+        {/* О встрече */}
+        <section className="container mx-auto px-6 py-16 md:py-24">
+          <div className="max-w-4xl">
+            <p className="text-sm text-muted-foreground mb-3">О встрече</p>
+            <h2 className="font-display text-3xl md:text-4xl font-semibold leading-tight text-balance">
+              Библиотека из 40+ игр, ведущий, чай без лимита. Приходи один или компанией.
+            </h2>
+            <div className="mt-6 space-y-4 text-lg text-muted-foreground leading-relaxed">
+              <p>
+                Вечер настольных игр — это про расслабленную атмосферу, новые знакомства и
+                лёгкое соперничество за столом. Не важно, играли ли вы раньше: ведущий
+                объяснит правила, подскажет, во что начать, и поможет включиться в процесс.
+              </p>
+              <p>
+                Можно прийти в одиночку — мы посадим за общий стол и познакомим с
+                соседями. Можно прийти компанией — тогда у вас будет свой уютный уголок.
+                И да, можно уйти раньше, если вдруг устанете: просто предупредите
+                организатора.
+              </p>
+              <p>
+                Сбор начинается за полчаса до старта. За это время успеете выбрать игру,
+                заказать напитки из кофейни и познакомиться с другими участниками.
+              </p>
+            </div>
+
+            <div className="mt-10 flex flex-col sm:flex-row sm:items-center gap-6">
+              <div className="rounded-2xl border border-border bg-card p-5">
+                <p className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground mb-1">
+                  Стоимость участия
+                </p>
+                <div className="flex items-baseline gap-3">
+                  <span className="font-display text-3xl font-semibold">{event.price} ₽</span>
+                  <span className="text-sm text-muted-foreground">по клубной карте — бесплатно</span>
+                </div>
+              </div>
+              <div className="flex flex-wrap gap-x-6 gap-y-2 text-sm text-muted-foreground">
+                <span className="flex items-center gap-2">
+                  <Check className="w-4 h-4 text-accent" /> Чай без лимита
+                </span>
+                <span className="flex items-center gap-2">
+                  <Users className="w-4 h-4 text-accent" /> От {minimumParticipants} до {event.capacity} человек
+                </span>
+              </div>
+            </div>
+          </div>
+        </section>
+
         {/* Детали */}
         <section className="container mx-auto px-6 py-16 md:py-24">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16">
