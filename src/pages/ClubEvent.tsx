@@ -321,8 +321,8 @@ const ClubEvent = () => {
         {boardGames && (
           <>
             {/* Каталог игр с каскадными табами */}
-            <Tabs defaultValue={BOARD_GAME_GROUPS[0].age} className="w-full">
-              <section id="games" className="container mx-auto px-6 py-20 md:py-28">
+            <section id="games" className="container mx-auto px-6 py-20 md:py-28">
+              <Tabs defaultValue={BOARD_GAME_GROUPS[0].age} className="w-full">
                 <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-10 md:mb-12">
                   <div className="max-w-2xl">
                     <p className="text-sm text-muted-foreground mb-3">Игры на ваш выбор</p>
