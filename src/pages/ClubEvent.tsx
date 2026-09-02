@@ -486,50 +486,6 @@ const ClubEvent = () => {
   );
 };
 
-const Row = ({
-  icon,
-  label,
-  value,
-  hint,
-}: {
-  icon: React.ReactNode;
-  label: string;
-  value: string;
-  hint?: string;
-}) => (
-  <div className="flex items-start gap-3">
-    <span className="mt-0.5 text-muted-foreground">{icon}</span>
-    <div className="flex-1">
-      <div className="text-[11px] uppercase tracking-widest text-muted-foreground">
-        {label}
-      </div>
-      <div className="font-display text-lg font-medium leading-tight">{value}</div>
-      {hint && <div className="text-xs text-muted-foreground mt-0.5">{hint}</div>}
-    </div>
-  </div>
-);
-
-const InfoBlock = ({ title, children }: { title: string; children: React.ReactNode }) => (
-  <div className="bg-background p-6 md:p-8">
-    <h3 className="font-display text-xl font-semibold mb-6">{title}</h3>
-    <div className="space-y-4">{children}</div>
-  </div>
-);
-
-const InfoLine = ({ children }: { children: React.ReactNode }) => (
-  <div className="flex items-start gap-3 text-sm leading-relaxed">
-    <Check className="w-4 h-4 mt-0.5 text-accent shrink-0" />
-    <span>{children}</span>
-  </div>
-);
-
-const Stat = ({ label, value, hint }: { label: string; value: string; hint?: string }) => (
-  <div>
-    <div className="text-[11px] uppercase tracking-widest text-muted-foreground">{label}</div>
-    <div className="font-display text-xl md:text-2xl font-semibold mt-1">{value}</div>
-    {hint && <p className="text-xs text-muted-foreground mt-2 max-w-xs">{hint}</p>}
-  </div>
-);
 
 const GameCard = ({ game }: { game: CascadedGame }) => {
   const initials = game.title
