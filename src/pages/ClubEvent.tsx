@@ -306,7 +306,10 @@ const ClubEvent = () => {
 
                 <div className="mt-12 border-t border-border pt-8 grid sm:grid-cols-3 gap-8">
                   <Stat label="Начало" value={`${nearest}, ${event.time.split("–")[0]}`} />
-                  <Stat label="Продолжительность" value={event.duration ?? event.time} />
+                  <Stat
+                    label="Продолжительность"
+                    value={event.duration ?? "до 2 часов"}
+                  />
                   <Stat
                     label="Состав группы"
                     value={`${minimumParticipants}–${event.capacity} человек`}
