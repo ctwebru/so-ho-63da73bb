@@ -314,26 +314,6 @@ const ClubEvent = () => {
 
         {boardGames && (
           <>
-            {/* Краткие правила вечера */}
-            <section className="border-y border-border bg-secondary/40">
-              <div className="container mx-auto px-6 py-8">
-                <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-3 text-sm text-muted-foreground">
-                  <span className="inline-flex items-center gap-2">
-                    <Ban className="w-4 h-4" />
-                    Без алкоголя и курения
-                  </span>
-                  <span className="inline-flex items-center gap-2">
-                    <Coffee className="w-4 h-4 text-accent" />
-                    Напитки из кофейни
-                  </span>
-                  <span className="inline-flex items-center gap-2">
-                    <Check className="w-4 h-4 text-accent" />
-                    Опыт не нужен
-                  </span>
-                </div>
-              </div>
-            </section>
-
             {/* Каталог игр с каскадными табами */}
             <section id="games" className="container mx-auto px-6 py-20 md:py-28">
               <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-12 md:mb-16">
