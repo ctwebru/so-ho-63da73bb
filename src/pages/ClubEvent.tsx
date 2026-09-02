@@ -244,15 +244,8 @@ const ClubEvent = () => {
         {/* Детали */}
         <section className="container mx-auto px-6 py-16 md:py-24">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16">
-            {/* Левая колонка: о встрече и правила */}
+            {/* Левая колонка: правила */}
             <div className="lg:col-span-7 space-y-10">
-              <div className="space-y-6">
-                <h2 className="font-display text-2xl md:text-3xl font-semibold">О встрече</h2>
-                <p className="text-lg md:text-xl leading-relaxed text-muted-foreground">
-                  {event.description}
-                </p>
-              </div>
-
               <div className="rounded-3xl border border-border bg-secondary/60 p-8 md:p-10 space-y-6">
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 rounded-full bg-accent/15 flex items-center justify-center">
