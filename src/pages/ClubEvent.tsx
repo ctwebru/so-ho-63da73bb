@@ -487,6 +487,14 @@ const ClubEvent = () => {
 };
 
 
+const GAME_BACKGROUNDS = [
+  "radial-gradient(circle at 30% 30%, hsl(90 18% 88%), hsl(110 16% 80%))",
+  "radial-gradient(circle at 30% 30%, hsl(75 16% 88%), hsl(95 14% 80%))",
+  "radial-gradient(circle at 30% 30%, hsl(110 14% 86%), hsl(130 12% 78%))",
+  "radial-gradient(circle at 30% 30%, hsl(80 15% 89%), hsl(100 13% 81%))",
+  "radial-gradient(circle at 30% 30%, hsl(120 12% 86%), hsl(140 10% 78%))",
+];
+
 const GameCard = ({ game }: { game: CascadedGame }) => {
   const initials = game.title
     .split(" ")
@@ -495,16 +503,14 @@ const GameCard = ({ game }: { game: CascadedGame }) => {
     .join("")
     .toUpperCase();
 
-  const hue = ((game.title.charCodeAt(0) * 37) % 360).toString();
+  const bgIndex = game.title.length % GAME_BACKGROUNDS.length;
 
   return (
     <article className="group cursor-pointer">
       <div className="aspect-[3/4] rounded-2xl mb-3 overflow-hidden border border-border bg-secondary transition-all duration-500 group-hover:scale-[1.02] group-hover:shadow-soft">
         <div
           className="w-full h-full flex items-center justify-center p-6"
-          style={{
-            background: `radial-gradient(circle at 30% 30%, hsl(${hue} 20% 88%), hsl(${hue} 18% 78%))`,
-          }}
+          style={{ background: GAME_BACKGROUNDS[bgIndex] }}
         >
           <div className="w-20 h-20 md:w-24 md:h-24 rounded-full border-2 border-foreground/10 flex items-center justify-center bg-background/60 backdrop-blur-sm">
             <span className="font-display text-2xl md:text-3xl font-semibold text-foreground/40">
