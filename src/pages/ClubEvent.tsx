@@ -3,11 +3,6 @@ import { Link, useParams } from "react-router-dom";
 import { toast } from "sonner";
 import {
   ArrowLeft,
-  CalendarDays,
-  Clock,
-  Coins,
-  Users,
-  ClipboardCheck,
   Share2,
   Sparkles,
   Check,
