@@ -4,10 +4,25 @@ export type BoardGame = {
   description: string;
 };
 
+export type CascadedGame = BoardGame & {
+  age: string;
+  ageTitle: string;
+};
+
 export type BoardGameGroup = {
   age: string;
   title: string;
   games: BoardGame[];
+};
+
+export const cascadeGames = (selectedAge: string): CascadedGame[] => {
+  const groups = BOARD_GAME_GROUPS;
+  const ages = groups.map((g) => g.age);
+  const idx = ages.indexOf(selectedAge);
+  if (idx === -1) return [];
+  return groups.slice(idx).flatMap((g) =>
+    g.games.map((game) => ({ ...game, age: g.age, ageTitle: g.title }))
+  );
 };
 
 export const BOARD_GAME_GROUPS: BoardGameGroup[] = [

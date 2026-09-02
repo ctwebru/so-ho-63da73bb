@@ -3,22 +3,13 @@ import { Link, useParams } from "react-router-dom";
 import { toast } from "sonner";
 import {
   ArrowLeft,
-  CalendarDays,
-  Clock,
-  Coins,
-  Users,
-  ClipboardCheck,
   Share2,
-  MapPin,
   Sparkles,
   Check,
   Ban,
   ArrowRight,
   ChevronDown,
   Coffee,
-  Smile,
-  BookOpen,
-  Gamepad2,
 } from "lucide-react";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import Navigation from "@/components/flow/Navigation";
@@ -33,7 +24,7 @@ import {
   DialogDescription,
 } from "@/components/ui/dialog";
 import { KIND_META } from "@/data/clubSchedule";
-import { BOARD_GAME_GROUPS } from "@/data/boardGames";
+import { BOARD_GAME_GROUPS, cascadeGames, type CascadedGame } from "@/data/boardGames";
 import { resolveEvent, nextDateFor, formatRuDate, isBoardGameEvent } from "@/lib/clubEvent";
 import clubPhoto from "@/assets/real/club-front.png";
 
@@ -195,134 +186,143 @@ const ClubEvent = () => {
         </section>
 
         {/* Детали */}
-        <section className="container mx-auto px-6 py-16 md:py-24 grid md:grid-cols-12 gap-10">
-          <div className="md:col-span-7 space-y-6">
-            <p className="text-lg md:text-xl leading-relaxed text-muted-foreground">
-              {event.description}
-            </p>
-            {event.host && (
-              <p className="text-sm text-muted-foreground">Ведёт: {event.host}</p>
-            )}
-            <div className="flex items-start gap-2 text-sm text-muted-foreground border-t border-border pt-6">
-              <MapPin className="w-4 h-4 mt-0.5 shrink-0" />
-              <span>
-                Новосибирск, Дачное шоссе, 22/3 — соседский клуб SO-HO! на территории ЖК
-                Flora&nbsp;&amp;&nbsp;Fauna. Клуб открыт ежедневно 08:00 — 20:00.
-              </span>
-            </div>
-          </div>
-
-          <aside className="md:col-span-5">
-            <div className="rounded-3xl border border-border bg-card p-6 shadow-soft space-y-5">
-              <Row
-                icon={<Coins className="w-4 h-4" />}
-                label="Стоимость"
-                value={`${event.price} ₽`}
-                hint="По клубной карте — бесплатно"
-              />
-              <Row
-                icon={<Users className="w-4 h-4" />}
-                label="Максимум участников"
-                value={`${event.capacity} человек`}
-                hint={
-                  soldOut
-                    ? "Мест не осталось"
-                    : boardGames
-                      ? `Минимум ${minimumParticipants} · свободно ${left}`
-                      : `Свободно ${left}`
-                }
-              />
-              <Row
-                icon={<ClipboardCheck className="w-4 h-4" />}
-                label="Запись"
-                value={event.booking ? "Нужна бронь" : "Без записи"}
-              />
-              <Row
-                icon={<Clock className="w-4 h-4" />}
-                label="Продолжительность"
-                value={event.duration ?? event.time}
-              />
-              {event.recurring && (
-                <Row
-                  icon={<CalendarDays className="w-4 h-4" />}
-                  label="Повторяется"
-                  value={event.dateLabel}
-                />
-              )}
-
-              <div className="pt-2">
-                <div className="h-2 rounded-full bg-secondary overflow-hidden">
-                  <div
-                    className="h-full rounded-full bg-accent"
-                    style={{
-                      width: `${Math.min(100, Math.round((event.booked / event.capacity) * 100))}%`,
-                    }}
-                  />
-                </div>
-                <div className="text-xs text-muted-foreground mt-2 tabular-nums">
-                  Записались {event.booked} из {event.capacity}
-                </div>
+        <section className="container mx-auto px-6 py-16 md:py-24">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16">
+            {/* Левая колонка: о встрече и правила */}
+            <div className="lg:col-span-7 space-y-10">
+              <div className="space-y-6">
+                <h2 className="font-display text-2xl md:text-3xl font-semibold">О встрече</h2>
+                <p className="text-lg md:text-xl leading-relaxed text-muted-foreground">
+                  {event.description}
+                </p>
               </div>
 
-              <Button
-                className="w-full"
-                size="lg"
-                disabled={soldOut}
-                onClick={() => setOpen(true)}
-              >
-                {soldOut ? "Мест нет" : "Забронировать место"}
-              </Button>
+              <div className="rounded-2xl border border-border bg-secondary/40 p-6 md:p-8 space-y-5">
+                <h3 className="text-xs uppercase tracking-[0.2em] text-muted-foreground font-medium">
+                  Правила посещения
+                </h3>
+                <ul className="space-y-4">
+                  <li className="flex items-start gap-4">
+                    <span className="w-1.5 h-1.5 rounded-full bg-foreground mt-2 shrink-0" />
+                    <p className="text-sm leading-relaxed">
+                      Приходите за 30 минут до начала — успеете выбрать игру, заказать напитки и
+                      познакомиться с соседями.
+                    </p>
+                  </li>
+                  <li className="flex items-start gap-4">
+                    <span className="w-1.5 h-1.5 rounded-full bg-foreground mt-2 shrink-0" />
+                    <p className="text-sm leading-relaxed">
+                      Минимум {minimumParticipants} участника для проведения встречи.
+                    </p>
+                  </li>
+                  <li className="flex items-start gap-4">
+                    <span className="w-1.5 h-1.5 rounded-full bg-foreground mt-2 shrink-0" />
+                    <p className="text-sm leading-relaxed">
+                      Максимальная вместимость — {event.capacity} гостей, чтобы всем было комфортно.
+                    </p>
+                  </li>
+                </ul>
+              </div>
             </div>
-          </aside>
+
+            {/* Правая колонка: бронирование */}
+            <aside className="lg:col-span-5">
+              <div className="lg:sticky lg:top-24 rounded-3xl border border-border bg-card p-6 md:p-8 shadow-soft space-y-6">
+                <div>
+                  <p className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground mb-1">
+                    Стоимость
+                  </p>
+                  <div className="flex items-baseline gap-3 flex-wrap">
+                    <span className="font-display text-3xl font-semibold">{event.price} ₽</span>
+                    <span className="text-xs text-muted-foreground">
+                      по клубной карте — бесплатно
+                    </span>
+                  </div>
+                </div>
+
+                <div>
+                  <p className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground mb-3">
+                    Статус записи
+                  </p>
+                  <div className="flex items-center gap-2 mb-2">
+                    <span className="text-sm font-medium">
+                      {left} {left === 1 ? "место" : left < 5 ? "места" : "мест"} доступно
+                    </span>
+                    {!soldOut && (
+                      <span className="text-[10px] px-2 py-0.5 rounded-full bg-accent/15 text-accent border border-accent/20">
+                        Открыта
+                      </span>
+                    )}
+                    {soldOut && (
+                      <span className="text-[10px] px-2 py-0.5 rounded-full bg-destructive/10 text-destructive border border-destructive/20">
+                        Заполнено
+                      </span>
+                    )}
+                  </div>
+                  <div className="h-2 rounded-full bg-secondary overflow-hidden">
+                    <div
+                      className="h-full rounded-full bg-accent"
+                      style={{
+                        width: `${Math.min(100, Math.round((event.booked / event.capacity) * 100))}%`,
+                      }}
+                    />
+                  </div>
+                  <p className="text-[10px] text-muted-foreground mt-2 tabular-nums">
+                    Записались {event.booked} из {event.capacity}
+                  </p>
+                </div>
+
+                <div className="flex gap-6 md:gap-8 border-t border-border pt-5">
+                  <div>
+                    <p className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground mb-1">
+                      Запись
+                    </p>
+                    <p className="text-sm font-medium">
+                      {event.booking ? "Нужна бронь" : "Без записи"}
+                    </p>
+                  </div>
+                  <div>
+                    <p className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground mb-1">
+                      Длительность
+                    </p>
+                    <p className="text-sm font-medium">{event.duration ?? event.time}</p>
+                  </div>
+                  {event.recurring && (
+                    <div>
+                      <p className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground mb-1">
+                        Повтор
+                      </p>
+                      <p className="text-sm font-medium">{event.dateLabel}</p>
+                    </div>
+                  )}
+                </div>
+
+                <Button
+                  className="w-full"
+                  size="lg"
+                  disabled={soldOut}
+                  onClick={() => setOpen(true)}
+                >
+                  {soldOut ? "Мест нет" : "Забронировать место"}
+                </Button>
+              </div>
+            </aside>
+          </div>
         </section>
 
         {boardGames && (
           <>
-            {/* Как проходит вечер — компактная дорожка */}
+            {/* Краткие правила вечера */}
             <section className="border-y border-border bg-secondary/40">
-              <div className="container mx-auto px-6 py-14 md:py-20">
-                <div className="text-center max-w-2xl mx-auto mb-10 md:mb-14">
-                  <p className="text-sm text-muted-foreground mb-3">Вечер без сложных планов</p>
-                  <h2 className="font-display text-3xl md:text-5xl font-semibold leading-tight text-balance">
-                    Приходи один. Или бери своих.
-                  </h2>
-                </div>
-
-                <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                  <StepCard
-                    icon={<Coffee className="w-5 h-5" />}
-                    step="01"
-                    title="Собираемся"
-                    text="За 30 минут до игры пьём кофе, знакомимся и выбираем настроение вечера."
-                  />
-                  <StepCard
-                    icon={<BookOpen className="w-5 h-5" />}
-                    step="02"
-                    title="Объясняем"
-                    text="Не знаешь правил — не страшно. Ведущий расскажет всё просто и быстро."
-                  />
-                  <StepCard
-                    icon={<Gamepad2 className="w-5 h-5" />}
-                    step="03"
-                    title="Играем"
-                    text="За вечер успеваем несколько партий. Меняем игры, если захочется."
-                  />
-                  <StepCard
-                    icon={<Smile className="w-5 h-5" />}
-                    step="04"
-                    title="Уходим довольные"
-                    text="Можно уйти раньше — просто предупреди. Или остаться до закрытия."
-                  />
-                </div>
-
-                <div className="mt-10 flex flex-wrap items-center justify-center gap-4 md:gap-8 text-sm text-muted-foreground">
+              <div className="container mx-auto px-6 py-8">
+                <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-3 text-sm text-muted-foreground">
                   <span className="inline-flex items-center gap-2">
                     <Ban className="w-4 h-4" />
                     Без алкоголя и курения
                   </span>
                   <span className="inline-flex items-center gap-2">
-                    <Check className="w-4 h-4 text-accent" />
-                    Напитки можно заказать в кофейне
+                    <Coffee className="w-4 h-4 text-accent" />
+                    Напитки из кофейни
                   </span>
                   <span className="inline-flex items-center gap-2">
                     <Check className="w-4 h-4 text-accent" />
@@ -332,28 +332,32 @@ const ClubEvent = () => {
               </div>
             </section>
 
-            {/* Каталог игр с табами */}
+            {/* Каталог игр с каскадными табами */}
             <section id="games" className="container mx-auto px-6 py-20 md:py-28">
-              <div className="max-w-3xl">
-                <p className="text-sm text-muted-foreground mb-3">Игры на ваш выбор</p>
-                <h2 className="font-display text-4xl md:text-6xl font-semibold leading-tight text-balance">
-                  Во что будем играть?
-                </h2>
-                <p className="mt-5 text-lg text-muted-foreground leading-relaxed">
-                  Переключай возрастную группу и смотри, какие игры будут на столах. Не знаешь
-                  правил — всё объясним перед первой партией.
-                </p>
+              <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-12 md:mb-16">
+                <div className="max-w-2xl">
+                  <p className="text-sm text-muted-foreground mb-3">Игры на ваш выбор</p>
+                  <h2 className="font-display text-4xl md:text-5xl font-semibold leading-tight text-balance">
+                    Во что играем?
+                  </h2>
+                  <p className="mt-4 text-lg text-muted-foreground leading-relaxed">
+                    Библиотека из 40+ игр. Переключай возрастную группу — в старших табах
+                    автоматически появляются и младшие игры.
+                  </p>
+                </div>
               </div>
 
-              <Tabs defaultValue={BOARD_GAME_GROUPS[0].age} className="mt-12 md:mt-16">
-                <TabsList className="h-auto flex flex-wrap justify-start gap-2 bg-transparent p-0">
+              <Tabs defaultValue={BOARD_GAME_GROUPS[0].age} className="w-full">
+                <TabsList className="h-auto w-full md:w-auto flex flex-wrap justify-start gap-2 bg-transparent p-0 mb-8 md:mb-10">
                   {BOARD_GAME_GROUPS.map((group) => (
                     <TabsTrigger
                       key={group.age}
                       value={group.age}
-                      className="rounded-full border border-border px-5 py-2.5 text-sm data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:border-primary data-[state=active]:shadow-none"
+                      className="rounded-full border border-border px-5 py-2.5 text-sm data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:border-primary data-[state=active]:shadow-none transition-all"
                     >
-                      <span className="font-display text-base font-semibold tabular-nums">{group.age}</span>
+                      <span className="font-display text-base font-semibold tabular-nums">
+                        {group.age}
+                      </span>
                       <span className="ml-2 text-muted-foreground data-[state=active]:text-primary-foreground/80">
                         {group.title}
                       </span>
@@ -361,31 +365,28 @@ const ClubEvent = () => {
                   ))}
                 </TabsList>
 
-                {BOARD_GAME_GROUPS.map((group) => (
-                  <TabsContent
-                    key={group.age}
-                    value={group.age}
-                    className="mt-8 focus-visible:outline-none"
-                  >
-                    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-                      {group.games.map((game) => (
-                        <article
-                          key={game.title}
-                          className="group relative rounded-2xl border border-border bg-card p-6 md:p-7 transition-shadow hover:shadow-soft"
-                        >
-                          <div className="absolute inset-x-0 top-0 h-1 rounded-t-2xl bg-primary/10 group-hover:bg-primary transition-colors" />
-                          <h4 className="font-display text-xl md:text-2xl font-semibold leading-tight">
-                            {game.title}
-                          </h4>
-                          <p className="mt-4 text-base font-medium leading-snug">{game.hook}</p>
-                          <p className="mt-3 text-sm text-muted-foreground leading-relaxed">
-                            {game.description}
-                          </p>
-                        </article>
-                      ))}
-                    </div>
-                  </TabsContent>
-                ))}
+                {BOARD_GAME_GROUPS.map((group) => {
+                  const games = cascadeGames(group.age);
+                  return (
+                    <TabsContent
+                      key={group.age}
+                      value={group.age}
+                      className="mt-0 focus-visible:outline-none"
+                    >
+                      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 md:gap-5">
+                        {games.map((game, idx) => (
+                          <GameCard key={`${game.title}-${idx}`} game={game} />
+                        ))}
+                      </div>
+
+                      <div className="mt-12 text-center">
+                        <p className="text-sm text-muted-foreground/70 italic">
+                          + ещё игры в коллекции клуба — ведущий подберёт под настроение вечера
+                        </p>
+                      </div>
+                    </TabsContent>
+                  );
+                })}
               </Tabs>
             </section>
 
@@ -480,72 +481,48 @@ const ClubEvent = () => {
   );
 };
 
-const Row = ({
-  icon,
-  label,
-  value,
-  hint,
-}: {
-  icon: React.ReactNode;
-  label: string;
-  value: string;
-  hint?: string;
-}) => (
-  <div className="flex items-start gap-3">
-    <span className="mt-0.5 text-muted-foreground">{icon}</span>
-    <div className="flex-1">
-      <div className="text-[11px] uppercase tracking-widest text-muted-foreground">
-        {label}
+
+const GAME_BACKGROUNDS = [
+  "radial-gradient(circle at 30% 30%, hsl(90 18% 88%), hsl(110 16% 80%))",
+  "radial-gradient(circle at 30% 30%, hsl(75 16% 88%), hsl(95 14% 80%))",
+  "radial-gradient(circle at 30% 30%, hsl(110 14% 86%), hsl(130 12% 78%))",
+  "radial-gradient(circle at 30% 30%, hsl(80 15% 89%), hsl(100 13% 81%))",
+  "radial-gradient(circle at 30% 30%, hsl(120 12% 86%), hsl(140 10% 78%))",
+];
+
+const GameCard = ({ game }: { game: CascadedGame }) => {
+  const initials = game.title
+    .split(" ")
+    .slice(0, 2)
+    .map((w) => w[0])
+    .join("")
+    .toUpperCase();
+
+  const bgIndex = game.title.length % GAME_BACKGROUNDS.length;
+
+  return (
+    <article className="group cursor-pointer">
+      <div className="aspect-[3/4] rounded-2xl mb-3 overflow-hidden border border-border bg-secondary transition-all duration-500 group-hover:scale-[1.02] group-hover:shadow-soft">
+        <div
+          className="w-full h-full flex items-center justify-center p-6"
+          style={{ background: GAME_BACKGROUNDS[bgIndex] }}
+        >
+          <div className="w-20 h-20 md:w-24 md:h-24 rounded-full border-2 border-foreground/10 flex items-center justify-center bg-background/60 backdrop-blur-sm">
+            <span className="font-display text-2xl md:text-3xl font-semibold text-foreground/40">
+              {initials || "?"}
+            </span>
+          </div>
+        </div>
       </div>
-      <div className="font-display text-lg font-medium leading-tight">{value}</div>
-      {hint && <div className="text-xs text-muted-foreground mt-0.5">{hint}</div>}
-    </div>
-  </div>
-);
-
-const InfoBlock = ({ title, children }: { title: string; children: React.ReactNode }) => (
-  <div className="bg-background p-6 md:p-8">
-    <h3 className="font-display text-xl font-semibold mb-6">{title}</h3>
-    <div className="space-y-4">{children}</div>
-  </div>
-);
-
-const InfoLine = ({ children }: { children: React.ReactNode }) => (
-  <div className="flex items-start gap-3 text-sm leading-relaxed">
-    <Check className="w-4 h-4 mt-0.5 text-accent shrink-0" />
-    <span>{children}</span>
-  </div>
-);
-
-const Stat = ({ label, value, hint }: { label: string; value: string; hint?: string }) => (
-  <div>
-    <div className="text-[11px] uppercase tracking-widest text-muted-foreground">{label}</div>
-    <div className="font-display text-xl md:text-2xl font-semibold mt-1">{value}</div>
-    {hint && <p className="text-xs text-muted-foreground mt-2 max-w-xs">{hint}</p>}
-  </div>
-);
-
-const StepCard = ({
-  icon,
-  step,
-  title,
-  text,
-}: {
-  icon: React.ReactNode;
-  step: string;
-  title: string;
-  text: string;
-}) => (
-  <div className="rounded-2xl border border-border bg-background p-6 md:p-7">
-    <div className="flex items-center justify-between">
-      <span className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-primary/10 text-primary">
-        {icon}
-      </span>
-      <span className="font-display text-sm text-muted-foreground tabular-nums">{step}</span>
-    </div>
-    <h3 className="font-display text-xl font-semibold mt-5">{title}</h3>
-    <p className="text-sm text-muted-foreground leading-relaxed mt-2">{text}</p>
-  </div>
-);
+      <h4 className="font-display text-base md:text-lg font-semibold leading-tight group-hover:text-accent transition-colors">
+        {game.title}
+      </h4>
+      <p className="mt-1.5 text-xs text-muted-foreground line-clamp-2">{game.hook}</p>
+      <p className="mt-2 text-[10px] uppercase tracking-wider text-muted-foreground/70">
+        {game.age}
+      </p>
+    </article>
+  );
+};
 
 export default ClubEvent;
