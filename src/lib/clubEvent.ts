@@ -30,6 +30,9 @@ export type ResolvedEvent = {
   weekDay?: WeekDayId;
 };
 
+export const isBoardGameEvent = (event: ResolvedEvent) =>
+  event.kind.startsWith("board_") || event.title.toLowerCase().includes("настол");
+
 export const slotSlug = (day: WeekDayId, start: string, kind: ScheduleKind) =>
   `w${day}-${start.replace(":", "")}-${kind}`;
 
