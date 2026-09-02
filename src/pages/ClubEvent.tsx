@@ -181,6 +181,16 @@ const ClubEvent = () => {
                 <Share2 className="w-4 h-4" /> Поделиться
               </Button>
             </div>
+
+            {boardGames && (
+              <a
+                href="#games"
+                className="hidden md:inline-flex items-center gap-2 mt-14 text-sm text-muted-foreground hover:text-foreground transition-colors"
+              >
+                <ChevronDown className="w-4 h-4 animate-bounce" />
+                Во что играем
+              </a>
+            )}
           </div>
         </section>
 
