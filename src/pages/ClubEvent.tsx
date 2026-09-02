@@ -525,4 +525,27 @@ const Stat = ({ label, value, hint }: { label: string; value: string; hint?: str
   </div>
 );
 
+const StepCard = ({
+  icon,
+  step,
+  title,
+  text,
+}: {
+  icon: React.ReactNode;
+  step: string;
+  title: string;
+  text: string;
+}) => (
+  <div className="rounded-2xl border border-border bg-background p-6 md:p-7">
+    <div className="flex items-center justify-between">
+      <span className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-primary/10 text-primary">
+        {icon}
+      </span>
+      <span className="font-display text-sm text-muted-foreground tabular-nums">{step}</span>
+    </div>
+    <h3 className="font-display text-xl font-semibold mt-5">{title}</h3>
+    <p className="text-sm text-muted-foreground leading-relaxed mt-2">{text}</p>
+  </div>
+);
+
 export default ClubEvent;
