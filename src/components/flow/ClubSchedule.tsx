@@ -15,6 +15,7 @@ import {
 } from "@/data/clubSchedule";
 import { CLUB_EVENTS, type ClubEvent } from "@/data/club";
 import EventDetailDialog, { type EventDetail } from "./EventDetailDialog";
+import { slotSlug, specialSlug } from "@/lib/clubEvent";
 
 type Mode = "week" | "day" | "month";
 
@@ -41,6 +42,11 @@ const jsDowToWeekDayId = (dow: number): WeekDayId => (dow === 0 ? 7 : dow) as We
 
 const slotToDetail = (s: ScheduleSlot, dayFull: string): EventDetail => ({
   id: `slot-${dayFull}-${s.start}-${s.kind}`,
+  slug: slotSlug(
+    (WEEK_DAYS.find((w) => w.full === dayFull)?.id ?? 1) as WeekDayId,
+    s.start,
+    s.kind,
+  ),
   kind: s.kind,
   title: s.title,
   description:
@@ -53,6 +59,7 @@ const slotToDetail = (s: ScheduleSlot, dayFull: string): EventDetail => ({
 
 const eventToDetail = (e: ClubEvent): EventDetail => ({
   id: `event-${e.id}`,
+  slug: specialSlug(e.id),
   kind: "special",
   title: e.title,
   description: e.desc,

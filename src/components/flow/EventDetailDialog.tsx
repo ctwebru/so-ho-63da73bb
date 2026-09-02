@@ -8,6 +8,7 @@ import {
   DialogDescription,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
 import { KIND_META, type ScheduleKind } from "@/data/clubSchedule";
 
 export const EVENING_PRICE = 200;
@@ -16,6 +17,7 @@ export const EVENT_PRICE = 500;
 
 export type EventDetail = {
   id: string;
+  slug?: string;
   kind: ScheduleKind | "special";
   title: string;
   description: string;
@@ -154,6 +156,14 @@ const EventDetailDialog = ({
               </Button>
             </div>
           </div>
+
+          {event?.slug && (
+            <div className="mt-4">
+              <Button asChild variant="outline" size="sm" className="w-full">
+                <Link to={`/club/event/${event.slug}`}>Страница события</Link>
+              </Button>
+            </div>
+          )}
 
           {event?.note && (
             <div className="mt-4 text-xs text-muted-foreground border-t border-border pt-3">
