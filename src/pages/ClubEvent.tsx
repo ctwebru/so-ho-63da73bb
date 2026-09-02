@@ -14,7 +14,13 @@ import {
   Check,
   Ban,
   ArrowRight,
+  ChevronDown,
+  Coffee,
+  Smile,
+  BookOpen,
+  Gamepad2,
 } from "lucide-react";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import Navigation from "@/components/flow/Navigation";
 import Footer from "@/components/flow/Footer";
 import { Button } from "@/components/ui/button";
