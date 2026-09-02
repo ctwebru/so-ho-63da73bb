@@ -194,108 +194,30 @@ const ClubEvent = () => {
           </div>
         </section>
 
-        {/* О встрече */}
+        {/* О встрече + бронь */}
         <section className="container mx-auto px-6 py-16 md:py-24">
-          <div className="max-w-4xl">
-            <p className="text-sm text-muted-foreground mb-3">О встрече</p>
-            <h2 className="font-display text-3xl md:text-4xl font-semibold leading-tight text-balance">
-              Библиотека из 40+ игр, ведущий, чай без лимита. Приходи один или компанией.
-            </h2>
-            <div className="mt-6 space-y-4 text-lg text-muted-foreground leading-relaxed">
-              <p>
-                Вечер настольных игр — это про расслабленную атмосферу, новые знакомства и
-                лёгкое соперничество за столом. Не важно, играли ли вы раньше: ведущий
-                объяснит правила, подскажет, во что начать, и поможет включиться в процесс.
-              </p>
-              <p>
-                Можно прийти в одиночку — мы посадим за общий стол и познакомим с
-                соседями. Можно прийти компанией — тогда у вас будет свой уютный уголок.
-                И да, можно уйти раньше, если вдруг устанете: просто предупредите
-                организатора.
-              </p>
-              <p>
-                Сбор начинается за полчаса до старта. За это время успеете выбрать игру,
-                заказать напитки из кофейни и познакомиться с другими участниками.
-              </p>
-            </div>
-
-            <div className="mt-10 flex flex-col sm:flex-row sm:items-center gap-6">
-              <div className="rounded-2xl border border-border bg-card p-5">
-                <p className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground mb-1">
-                  Стоимость участия
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-start">
+            <div className="lg:col-span-7">
+              <p className="text-sm text-muted-foreground mb-3">О встрече</p>
+              <h2 className="font-display text-3xl md:text-5xl font-semibold leading-tight text-balance">
+                Скучно вечером? Мы уже всё придумали.
+              </h2>
+              <div className="mt-6 space-y-4 text-lg text-muted-foreground leading-relaxed max-w-2xl">
+                <p>
+                  Настолки, новые знакомства и уютная атмосфера ждут тебя в соседском клубе
+                  SO-HO!. Приходи один — посадим за общий стол. Приходи компанией — у вас
+                  будет свой уголок.
                 </p>
-                <div className="flex items-baseline gap-3">
-                  <span className="font-display text-3xl font-semibold">{event.price} ₽</span>
-                  <span className="text-sm text-muted-foreground">по клубной карте — бесплатно</span>
-                </div>
-              </div>
-              <div className="flex flex-wrap gap-x-6 gap-y-2 text-sm text-muted-foreground">
-                <span className="flex items-center gap-2">
-                  <Check className="w-4 h-4 text-accent" /> Чай без лимита
-                </span>
-                <span className="flex items-center gap-2">
-                  <Users className="w-4 h-4 text-accent" /> От {minimumParticipants} до {event.capacity} человек
-                </span>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Детали */}
-        <section className="container mx-auto px-6 py-16 md:py-24">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16">
-            {/* Левая колонка: правила */}
-            <div className="lg:col-span-7 space-y-10">
-              <div className="rounded-3xl border border-border bg-secondary/60 p-8 md:p-10 space-y-6">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full bg-accent/15 flex items-center justify-center">
-                    <ClipboardCheck className="w-5 h-5 text-accent" />
-                  </div>
-                  <h3 className="font-display text-xl md:text-2xl font-semibold">
-                    Правила простые
-                  </h3>
-                </div>
-                <p className="text-muted-foreground leading-relaxed">
-                  Чтобы всем было комфортно, по-домашнему и без неловких моментов.
+                <p>
+                  Опыт не нужен: ведущий объяснит правила, подскажет игру под настроение и
+                  поможет включиться. Сбор за 30 минут до старта — успеете выбрать, во что
+                  играть.
                 </p>
-                <ul className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <li className="flex items-start gap-4 rounded-2xl bg-background/60 p-4 border border-border">
-                    <Clock className="w-5 h-5 text-accent shrink-0 mt-0.5" />
-                    <p className="text-sm leading-relaxed">
-                      Приходите за 30 минут до начала — успеете выбрать игру, заказать напитки и
-                      познакомиться с соседями.
-                    </p>
-                  </li>
-                  <li className="flex items-start gap-4 rounded-2xl bg-background/60 p-4 border border-border">
-                    <Users className="w-5 h-5 text-accent shrink-0 mt-0.5" />
-                    <p className="text-sm leading-relaxed">
-                      Минимум {minimumParticipants} участника для проведения встречи.
-                    </p>
-                  </li>
-                  <li className="flex items-start gap-4 rounded-2xl bg-background/60 p-4 border border-border">
-                    <Users className="w-5 h-5 text-accent shrink-0 mt-0.5" />
-                    <p className="text-sm leading-relaxed">
-                      Максимальная вместимость — {event.capacity} гостей, чтобы всем было
-                      комфортно.
-                    </p>
-                  </li>
-                  <li className="flex items-start gap-4 rounded-2xl bg-background/60 p-4 border border-border">
-                    <Ban className="w-5 h-5 text-accent shrink-0 mt-0.5" />
-                    <p className="text-sm leading-relaxed">Без алкоголя и курения.</p>
-                  </li>
-                  <li className="flex items-start gap-4 rounded-2xl bg-background/60 p-4 border border-border md:col-span-2">
-                    <Check className="w-5 h-5 text-accent shrink-0 mt-0.5" />
-                    <p className="text-sm leading-relaxed">
-                      Опыт не нужен — ведущий объяснит правила и поможет включиться в игру.
-                    </p>
-                  </li>
-                </ul>
               </div>
             </div>
 
-            {/* Правая колонка: бронирование */}
             <aside className="lg:col-span-5">
-              <div className="lg:sticky lg:top-24 rounded-3xl border border-border bg-card p-6 md:p-8 shadow-soft space-y-6">
+              <div className="lg:sticky lg:top-24 rounded-3xl border border-border bg-card p-6 md:p-8 shadow-soft space-y-5">
                 <div>
                   <p className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground mb-1">
                     Стоимость
@@ -309,10 +231,10 @@ const ClubEvent = () => {
                 </div>
 
                 <div>
-                  <p className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground mb-3">
-                    Статус записи
+                  <p className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground mb-2">
+                    Места
                   </p>
-                  <div className="flex items-center gap-2 mb-2">
+                  <div className="flex items-center gap-2">
                     <span className="text-sm font-medium">
                       {left} {left === 1 ? "место" : left < 5 ? "места" : "мест"} доступно
                     </span>
@@ -327,7 +249,7 @@ const ClubEvent = () => {
                       </span>
                     )}
                   </div>
-                  <div className="h-2 rounded-full bg-secondary overflow-hidden">
+                  <div className="h-2 rounded-full bg-secondary overflow-hidden mt-2">
                     <div
                       className="h-full rounded-full bg-accent"
                       style={{
@@ -340,31 +262,6 @@ const ClubEvent = () => {
                   </p>
                 </div>
 
-                <div className="flex gap-6 md:gap-8 border-t border-border pt-5">
-                  <div>
-                    <p className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground mb-1">
-                      Запись
-                    </p>
-                    <p className="text-sm font-medium">
-                      {event.booking ? "Нужна бронь" : "Без записи"}
-                    </p>
-                  </div>
-                  <div>
-                    <p className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground mb-1">
-                      Длительность
-                    </p>
-                    <p className="text-sm font-medium">{event.duration ?? event.time}</p>
-                  </div>
-                  {event.recurring && (
-                    <div>
-                      <p className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground mb-1">
-                        Повтор
-                      </p>
-                      <p className="text-sm font-medium">{event.dateLabel}</p>
-                    </div>
-                  )}
-                </div>
-
                 <Button
                   className="w-full"
                   size="lg"
@@ -373,8 +270,62 @@ const ClubEvent = () => {
                 >
                   {soldOut ? "Мест нет" : "Забронировать место"}
                 </Button>
+                <p className="text-xs text-muted-foreground text-center">
+                  Оплата на месте · можно прийти одному или компанией
+                </p>
               </div>
             </aside>
+          </div>
+        </section>
+
+        {/* Правила */}
+        <section className="container mx-auto px-6 py-16 md:py-24">
+          <div className="max-w-5xl">
+            <div className="rounded-3xl border border-border bg-secondary/60 p-8 md:p-10 space-y-6">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-full bg-accent/15 flex items-center justify-center">
+                  <ClipboardCheck className="w-5 h-5 text-accent" />
+                </div>
+                <h3 className="font-display text-xl md:text-2xl font-semibold">
+                  Правила простые
+                </h3>
+              </div>
+              <p className="text-muted-foreground leading-relaxed">
+                Чтобы всем было комфортно, по-домашнему и без неловких моментов.
+              </p>
+              <ul className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <li className="flex items-start gap-4 rounded-2xl bg-background/60 p-4 border border-border">
+                  <Clock className="w-5 h-5 text-accent shrink-0 mt-0.5" />
+                  <p className="text-sm leading-relaxed">
+                    Приходите за 30 минут до начала — успеете выбрать игру, заказать напитки и
+                    познакомиться с соседями.
+                  </p>
+                </li>
+                <li className="flex items-start gap-4 rounded-2xl bg-background/60 p-4 border border-border">
+                  <Users className="w-5 h-5 text-accent shrink-0 mt-0.5" />
+                  <p className="text-sm leading-relaxed">
+                    Минимум {minimumParticipants} участника для проведения встречи.
+                  </p>
+                </li>
+                <li className="flex items-start gap-4 rounded-2xl bg-background/60 p-4 border border-border">
+                  <Users className="w-5 h-5 text-accent shrink-0 mt-0.5" />
+                  <p className="text-sm leading-relaxed">
+                    Максимальная вместимость — {event.capacity} гостей, чтобы всем было
+                    комфортно.
+                  </p>
+                </li>
+                <li className="flex items-start gap-4 rounded-2xl bg-background/60 p-4 border border-border">
+                  <Ban className="w-5 h-5 text-accent shrink-0 mt-0.5" />
+                  <p className="text-sm leading-relaxed">Без алкоголя и курения.</p>
+                </li>
+                <li className="flex items-start gap-4 rounded-2xl bg-background/60 p-4 border border-border md:col-span-2">
+                  <Check className="w-5 h-5 text-accent shrink-0 mt-0.5" />
+                  <p className="text-sm leading-relaxed">
+                    Опыт не нужен — ведущий объяснит правила и поможет включиться в игру.
+                  </p>
+                </li>
+              </ul>
+            </div>
           </div>
         </section>
 
