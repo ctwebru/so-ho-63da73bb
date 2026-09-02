@@ -9,7 +9,6 @@ import {
   Users,
   ClipboardCheck,
   Share2,
-  MapPin,
   Sparkles,
   Check,
   Ban,
@@ -19,6 +18,7 @@ import {
   Smile,
   BookOpen,
   Gamepad2,
+  Ticket,
 } from "lucide-react";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import Navigation from "@/components/flow/Navigation";
@@ -33,7 +33,7 @@ import {
   DialogDescription,
 } from "@/components/ui/dialog";
 import { KIND_META } from "@/data/clubSchedule";
-import { BOARD_GAME_GROUPS } from "@/data/boardGames";
+import { BOARD_GAME_GROUPS, cascadeGames, type CascadedGame } from "@/data/boardGames";
 import { resolveEvent, nextDateFor, formatRuDate, isBoardGameEvent } from "@/lib/clubEvent";
 import clubPhoto from "@/assets/real/club-front.png";
 
