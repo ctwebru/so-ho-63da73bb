@@ -354,13 +354,13 @@ const ClubEvent = () => {
                     <TabsTrigger
                       key={group.age}
                       value={group.age}
-                      className="rounded-full border border-border px-5 py-2.5 text-sm data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:border-primary data-[state=active]:shadow-none transition-all"
+                      className="rounded-full border border-border px-4 py-2 text-sm data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:border-primary transition-all"
                     >
-                      <span className="font-display text-base font-semibold tabular-nums">
-                        {group.age}
-                      </span>
-                      <span className="ml-2 text-muted-foreground data-[state=active]:text-primary-foreground/80">
+                      <span className="text-foreground/80 data-[state=active]:text-primary-foreground">
                         {group.title}
+                      </span>
+                      <span className="ml-2 inline-flex items-center justify-center min-w-[1.75rem] px-1.5 py-0.5 rounded-md bg-secondary text-[10px] font-display font-semibold tabular-nums data-[state=active]:bg-primary-foreground/20 data-[state=active]:text-primary-foreground">
+                        {group.age}
                       </span>
                     </TabsTrigger>
                   ))}
