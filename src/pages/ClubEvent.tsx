@@ -9,7 +9,9 @@ import {
   Ban,
   ArrowRight,
   ChevronDown,
-  Coffee,
+  Clock,
+  Users,
+  ClipboardCheck,
 } from "lucide-react";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import Navigation from "@/components/flow/Navigation";
@@ -197,28 +199,47 @@ const ClubEvent = () => {
                 </p>
               </div>
 
-              <div className="rounded-2xl border border-border bg-secondary/40 p-6 md:p-8 space-y-5">
-                <h3 className="text-xs uppercase tracking-[0.2em] text-muted-foreground font-medium">
-                  Правила посещения
-                </h3>
-                <ul className="space-y-4">
-                  <li className="flex items-start gap-4">
-                    <span className="w-1.5 h-1.5 rounded-full bg-foreground mt-2 shrink-0" />
+              <div className="rounded-3xl border border-border bg-secondary/60 p-8 md:p-10 space-y-6">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-full bg-accent/15 flex items-center justify-center">
+                    <ClipboardCheck className="w-5 h-5 text-accent" />
+                  </div>
+                  <h3 className="font-display text-xl md:text-2xl font-semibold">
+                    Правила простые
+                  </h3>
+                </div>
+                <p className="text-muted-foreground leading-relaxed">
+                  Чтобы всем было комфортно, по-домашнему и без неловких моментов.
+                </p>
+                <ul className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <li className="flex items-start gap-4 rounded-2xl bg-background/60 p-4 border border-border">
+                    <Clock className="w-5 h-5 text-accent shrink-0 mt-0.5" />
                     <p className="text-sm leading-relaxed">
                       Приходите за 30 минут до начала — успеете выбрать игру, заказать напитки и
                       познакомиться с соседями.
                     </p>
                   </li>
-                  <li className="flex items-start gap-4">
-                    <span className="w-1.5 h-1.5 rounded-full bg-foreground mt-2 shrink-0" />
+                  <li className="flex items-start gap-4 rounded-2xl bg-background/60 p-4 border border-border">
+                    <Users className="w-5 h-5 text-accent shrink-0 mt-0.5" />
                     <p className="text-sm leading-relaxed">
                       Минимум {minimumParticipants} участника для проведения встречи.
                     </p>
                   </li>
-                  <li className="flex items-start gap-4">
-                    <span className="w-1.5 h-1.5 rounded-full bg-foreground mt-2 shrink-0" />
+                  <li className="flex items-start gap-4 rounded-2xl bg-background/60 p-4 border border-border">
+                    <Users className="w-5 h-5 text-accent shrink-0 mt-0.5" />
                     <p className="text-sm leading-relaxed">
-                      Максимальная вместимость — {event.capacity} гостей, чтобы всем было комфортно.
+                      Максимальная вместимость — {event.capacity} гостей, чтобы всем было
+                      комфортно.
+                    </p>
+                  </li>
+                  <li className="flex items-start gap-4 rounded-2xl bg-background/60 p-4 border border-border">
+                    <Ban className="w-5 h-5 text-accent shrink-0 mt-0.5" />
+                    <p className="text-sm leading-relaxed">Без алкоголя и курения.</p>
+                  </li>
+                  <li className="flex items-start gap-4 rounded-2xl bg-background/60 p-4 border border-border md:col-span-2">
+                    <Check className="w-5 h-5 text-accent shrink-0 mt-0.5" />
+                    <p className="text-sm leading-relaxed">
+                      Опыт не нужен — ведущий объяснит правила и поможет включиться в игру.
                     </p>
                   </li>
                 </ul>
@@ -312,26 +333,6 @@ const ClubEvent = () => {
 
         {boardGames && (
           <>
-            {/* Краткие правила вечера */}
-            <section className="border-y border-border bg-secondary/40">
-              <div className="container mx-auto px-6 py-8">
-                <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-3 text-sm text-muted-foreground">
-                  <span className="inline-flex items-center gap-2">
-                    <Ban className="w-4 h-4" />
-                    Без алкоголя и курения
-                  </span>
-                  <span className="inline-flex items-center gap-2">
-                    <Coffee className="w-4 h-4 text-accent" />
-                    Напитки из кофейни
-                  </span>
-                  <span className="inline-flex items-center gap-2">
-                    <Check className="w-4 h-4 text-accent" />
-                    Опыт не нужен
-                  </span>
-                </div>
-              </div>
-            </section>
-
             {/* Каталог игр с каскадными табами */}
             <section id="games" className="container mx-auto px-6 py-20 md:py-28">
               <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-12 md:mb-16">
@@ -353,13 +354,13 @@ const ClubEvent = () => {
                     <TabsTrigger
                       key={group.age}
                       value={group.age}
-                      className="rounded-full border border-border px-5 py-2.5 text-sm data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:border-primary data-[state=active]:shadow-none transition-all"
+                      className="rounded-full border border-border px-4 py-2 text-sm data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:border-primary transition-all"
                     >
-                      <span className="font-display text-base font-semibold tabular-nums">
-                        {group.age}
-                      </span>
-                      <span className="ml-2 text-muted-foreground data-[state=active]:text-primary-foreground/80">
+                      <span className="data-[state=inactive]:text-muted-foreground">
                         {group.title}
+                      </span>
+                      <span className="ml-2 inline-flex items-center justify-center min-w-[1.75rem] px-1.5 py-0.5 rounded-md bg-secondary text-[10px] font-display font-semibold tabular-nums data-[state=active]:bg-primary-foreground/20 data-[state=active]:text-primary-foreground">
+                        {group.age}
                       </span>
                     </TabsTrigger>
                   ))}
