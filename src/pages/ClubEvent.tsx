@@ -99,7 +99,8 @@ const ClubEvent = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <TooltipProvider delayDuration={0}>
+      <div className="min-h-screen bg-background">
       <Navigation />
 
       <main>
